@@ -1,5 +1,3 @@
-
-// ייבוא הרכיבים של PatternFly
 import { type CSSResult, LitElement, type TemplateResult, html, isServer, render } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { property } from 'lit/decorators/property.js';
@@ -25,12 +23,11 @@ interface ToastOptions {
   actions?: AlertAction[];
 }
 const ICONS = new Map(Object.entries({
-  neutral: 'minus-circle',
+  default: 'bell',
   info: 'info-circle',
   success: 'check-circle',
-  caution: 'exclamation-circle',
   warning: 'exclamation-triangle',
-  danger: 'ban',
+  danger: 'exclamation-circle',
   close: 'times',
 }));
 
@@ -101,7 +98,7 @@ export class PfAlert extends LitElement {
       // @ts-expect-error: support for deprecated props
       case 'note': return ICONS.get('info');
       // @ts-expect-error: support for deprecated props
-      case 'default': return ICONS.get('neutral');
+      case 'default': return ICONS.get('default');
       // @ts-expect-error: support for deprecated props
       case 'error': return ICONS.get('danger');
       default: return ICONS.get(state);
@@ -110,12 +107,11 @@ export class PfAlert extends LitElement {
 
   @property({ reflect: true })
   state:
-  | 'warning'
-    | 'caution'
-    | 'neutral'
-    | 'info'
-    | 'success' =
-      'neutral';
+    | 'default'
+    | 'danger'
+    | 'success'
+    | 'warning'
+    | 'info' = 'default';
 
   @property({ reflect: true }) variant?: 'alternate' | 'toast' | 'inline';
 
@@ -134,18 +130,16 @@ export class PfAlert extends LitElement {
     switch (state.toLowerCase()) {
       // the first three are deprecated pre-DPO status names
       case 'note': return 'info';
-      case 'default': return 'neutral';
+      case 'default': return 'default';
       case 'error': return 'danger';
       // the following are DPO-approved status names
       case 'danger':
       case 'warning':
-      case 'caution':
-      case 'neutral':
       case 'info':
       case 'success':
         return state.toLowerCase() as this['state'];
       default:
-        return 'neutral';
+        return 'default';
     }
   }
 
@@ -165,8 +159,9 @@ export class PfAlert extends LitElement {
     const state = this.#aliasState(this.state);
 
     // footer slot עם האקשנים
-   const footer = html`<footer class="${classMap({ hasActions })}"
-                  @click="${this.#onActionsClick}">
+    const footer = html`<footer class="${classMap({ hasActions })}"
+                  @click="${this.#onActionsClick}"
+                  @keydown="${this.#onActionsClick}">
             <!-- Provide actions that the user can take for the alert -->
             <slot name="actions"></slot>
           </footer>`;
@@ -185,8 +180,7 @@ export class PfAlert extends LitElement {
           <pf-icon 
             id="icon"
             set="fas" 
-            icon="${this.#icon}"  
-            style="--pf-c-icon--Color: var(--_icon-color); font-size: 36px; height: 36px; width: 36px;">
+            icon="${this.#icon}">
           </pf-icon>
         </div>
         <div id="middle-column">
@@ -226,7 +220,10 @@ export class PfAlert extends LitElement {
     this.remove();
   }
 
-  async #onActionsClick(event: MouseEvent) {
+  async #onActionsClick(event: MouseEvent | KeyboardEvent) {
+    if (event instanceof KeyboardEvent && event.key !== 'Enter') {
+      return;
+    }
     if (event.target instanceof HTMLElement
       && event.target?.slot === 'actions'
       && typeof event.target.dataset.action === 'string'

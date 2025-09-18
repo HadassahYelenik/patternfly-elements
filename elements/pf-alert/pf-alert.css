@@ -71,7 +71,7 @@ footer ::slotted(pf-button[variant='link' i]) {
 
   & header ::slotted(*) {
     font-family: var(--pf-global--FontFamily--text, RedHatText, 'Red Hat Text', Helvetica, Arial, sans-serif) !important;
-    font-weight: var(--pf-global--FontWeight--semiBold, 500) !important;
+    font-weight: var(--pf-global--FontWeight--bold, 700) !important;
     font-size: var(--pf-global--FontSize--sm, 0.875rem) !important;
     line-height: var(--pf-global--lineHeight--md, 1.5) !important;
     margin: 0 !important;
@@ -90,16 +90,16 @@ footer ::slotted(pf-button[variant='link' i]) {
   }
 }
 
-#container.neutral {
-  --_border-color: var(--pf-c-alert__BorderColor--neutral, #4b4d50);
-  --_icon-color: var(--pf-c-alert__IconColor--neutral, #3c3f42);
-  --_background-color: var(--pf-c-alert__BackgroundColor--neutral, #f0f0f0);
+#container.default {
+  --_border-color: var(--pf-c-alert--BorderColor--default, #737679);
+  --_icon-color: var(--pf-c-alert__IconColor--default, #737679);
+  --_background-color: var(--pf-c-alert__BackgroundColor--default, #f0f0f0);
 }
 
 #container.info {
-  --_border-color: var(--pf-c-alert__BorderColor--info, #5e40be);
-  --_icon-color: var(--pf-c-alert__IconColor--info,#5e40be);
-  --_background-color: var(--pf-c-alert__BackgroundColor--info, #e1dbf3);
+  --_border-color: var(--pf-c-alert__BorderColor--info, #0066cc);
+  --_icon-color: var(--pf-c-alert__IconColor--info, #0066cc);
+  --_background-color: var(--pf-c-alert__BackgroundColor--info, #e7f1fa);
 }
 
 #container.success {
@@ -113,11 +113,6 @@ footer ::slotted(pf-button[variant='link' i]) {
   --_border-color: var(--pf-c-alert__BorderColor--warning, #f0ab00);
   --_icon-color: var(--pf-c-alert__IconColor--warning, #f0ab00);
   --_background-color: var(--pf-c-alert__BackgroundColor--warning, #fef3d6);
-}
-#container.caution {
-  --_border-color: var(--pf-c-alert__BorderColor--warning, #d75324);
-  --_icon-color: var(--pf-c-alert__IconColor--warning,  #d75324);
-  --_background-color: var(--pf-c-alert__BackgroundColor--warning, #fadbb5);
 }
 
 #container.danger {
@@ -164,18 +159,17 @@ footer ::slotted(pf-button[variant='link' i]) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2400px;
-  height: 2400px;
+  font-size: var(--pf-global--FontSize--xl, 1.5rem);
   color: var(--_icon-color);
 }
 
 #close-button {
-  color: var(--pf-c-alert__CloseColor, #484545); /* צבע האיקס */
+  color: var(--pf-c-alert__CloseColor, #484545);
  
 }
 
 /* hover */
 #close-button:hover {
-  color: var(--pf-c-alert__CloseHoverColor, #484545); /* צבע האיקס בעת ריחוף */
+  color: var(--pf-c-alert__CloseHoverColor, #484545);
 }
 
